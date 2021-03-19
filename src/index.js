@@ -1,15 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Board from "./component/Board";
+import "./index.css";
+
 const Game = () => {
-  let state = {
+  let boderState = {
     height: 8,
     width: 8,
     mines: 10,
   };
+
   return (
-    <div>
-      <Board state={state} />
+    <div className="game">
+      <Board boderState={boderState} />
     </div>
   );
 };

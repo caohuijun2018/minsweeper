@@ -1,0 +1,231 @@
+import React from "react";
+import Cell from "./Cell";
+
+const Board = ({ boderState }) => {
+  const state = {
+    gamestatus: "game is processing",
+    mineCount: boderState.mines,
+  };
+
+  const createEmptyArray = () => {
+    //创建一个二维数组，记录每一个cell的状态
+    const data = [];
+    for (let i = 0; i < boderState.height; i++) {
+      data.push([]);
+      for (let j = 0; j < boderState.width; j++) {
+        data[i][j] = {
+          x: i,
+          y: j,
+          isMine: false,
+          isFlag: false,
+          isRevealed: false,
+          isEmpty: false,
+          neighbour: 0,
+        };
+      }
+    }
+    //console.log(data)
+    return data;
+  };
+
+  let plantMines = () => {
+    //随机的放入地雷
+    let data = createEmptyArray();
+
+    let randomX,
+      randomY,
+      minePlanted = 0;
+    while (minePlanted < state.mineCount) {
+      randomX = (Math.floor(Math.random() * 1000) + 1) % boderState.height;
+      randomY = (Math.floor(Math.random() * 1000) + 1) % boderState.width;
+
+      if (data[randomX][randomY].isMine === false) {
+        data[randomX][randomY].isMine = true;
+        minePlanted++;
+      }
+    }
+    //console.log(data)
+    return data; //返回值为随机添加了mines之后的二维数组
+  };
+
+  const getNeighbour = () => {
+    //遍历周围的cell
+    let updata = plantMines();
+
+    for (let i = 0; i < boderState.height; i++) {
+      for (let j = 0; j < boderState.width; j++) {
+        if (updata[i][j].isMine !== true) {
+          //当访问到的cell不是地雷是，返回周围节点的地雷总数和
+          let aroundCell = 0;
+
+          let area = traverseBoard(updata[i][j].x, updata[i][j].y, updata); //找到需要寻找的范围
+
+          area.map((value) => {
+            //console.log("value:",value.isMine)
+            if (value.isMine === true) aroundCell++; //找到范围内所有的地雷的数量
+            return null;
+          });
+          if (aroundCell === 0) {
+            updata[i][j].isEmpty = true;
+          }
+          updata[i][j].mineCount = aroundCell;
+        }
+      }
+    }
+    return updata;
+  };
+
+  const traverseBoard = (x, y, data) => {
+    //寻在八个位置的地雷的数量，并返回
+    const el = [];
+
+    //up
+    if (x > 0) {
+      el.push(data[x - 1][y]);
+    }
+
+    //down
+    if (x < boderState.height - 1) {
+      el.push(data[x + 1][y]);
+    }
+
+    //left
+    if (y > 0) {
+      el.push(data[x][y - 1]);
+    }
+
+    //right
+    if (y < boderState.width - 1) {
+      el.push(data[x][y + 1]);
+    }
+
+    // top left
+    if (x > 0 && y > 0) {
+      el.push(data[x - 1][y - 1]);
+    }
+
+    // top right
+    if (x > 0 && y < boderState.width - 1) {
+      el.push(data[x - 1][y + 1]);
+    }
+
+    // bottom right
+    if (x < boderState.height - 1 && y < boderState.width - 1) {
+      el.push(data[x + 1][y + 1]);
+    }
+
+    // bottom left
+    if (x < boderState.height - 1 && y > 0) {
+      el.push(data[x + 1][y - 1]);
+    }
+
+    return el;
+  };
+
+  let currentData = getNeighbour(); //currentData为此时防放置地雷完成之后的所有的cell的数据，并且每个cell周围的地雷数量已经得到
+  //console.log(currentData)
+  const renderBoard = (currentData) => {   //在每次点击之后，渲染<cell>组件，进行cell状态的判断
+    currentData.map((datarow) => {
+      datarow.map((dataitem) => {
+        return (
+          <div>
+            <Cell
+              data={currentData}
+              onClick={() => handleClick(dataitem.x, dataitem.y)}
+              onContextMenu={() => handleContexMenu()}
+            />
+          </div>
+        );
+      });
+      return null
+    });
+  };
+  const revealBoard = () => {
+    //将所有的cell都设置为已被点击
+    let updateBoard = currentData;
+    updateBoard.map((datarow) => {
+      datarow.map((dataitem) => {
+        dataitem.isRevealed = true;
+      });
+    });
+    currentData = updateBoard;
+    return currentData;
+  };
+
+  const getHidden = (data) => {   //找到所有被标记的cell，放入数组mineArray中
+    let mineArray = [];
+    data.map((datarow) => {
+      datarow.map((dataitem) => {
+        if (dataitem.isRevealed === true  ) {
+          mineArray.push(dataitem);
+        }
+      });
+    });
+    return mineArray;
+  };
+  const getFlag = (data) => {
+    let mineArray = [];
+    data.map((datarow) => {
+      datarow.map((dataitem) => {
+        if (dataitem.isFlag === true) mineArray.push(dataitem);
+      });
+    });
+    return mineArray;
+  };
+  const handleClick = (x, y) => {
+    //当cell被点击时
+    let updata = currentData;
+    if (updata[x][y].isMine === true) {   //当点击到地雷之后，结束游戏
+      state.gamestatus = "You are lose";
+      revealBoard(); //将所有的cell都设置为已被点击
+      alert("game  over");
+    }
+    if(updata[x][y].isRevealed || !updata[x][y].isFlag) return null  //当点击到已经被标志过的cell，返回空
+    if(getHidden(updata).length === state.mineCount){ 
+        state.gamestatus = 'You are win !';
+        renderBoard();
+        alert('you win')   
+      
+    }
+    if(!updata[x][y].isEmpty) {
+        updata = revealEmpty(x,y,updata);   //当点击到空的cell时，递归找出所有的空节点
+    }
+    return updata;
+  };
+
+
+  const revealEmpty = (x,y,data) => {  //递归找到周围的所有空节点，可以被显示的cell的要求为：没有被标记，没有被点击，不是炸弹，且为空 ？？
+    let area = traverseBoard(x,y,data);
+    area.map(value => {
+      if(value.isFlag === false && value.isRevealed === false && (value.isEmpty === true || value.isMine === false)){
+        data[value.x][value.y]  = true;
+      }
+      if(value.isEmpty === false) revealBoard(value.x,value.y,data)
+      return null
+    })
+
+    return data;
+  } 
+
+  const handleContexMenu = () => {   //定义
+
+  }
+
+
+  return (
+    <div>
+      <div className="gamestatus">
+        <h1>mines: {state.mineCount}</h1>
+        <h1>{state.gamestatus}</h1>
+      </div>
+
+      <Cell cellState={currentData.map((cell) => cell)} />
+      <div>
+        <span>地雷： {state.mineCount}</span>
+        <br />
+        <span>游戏进程 ：{state.gamestatus}</span>
+      </div>
+    </div>
+  );
+};
+export default Board;
