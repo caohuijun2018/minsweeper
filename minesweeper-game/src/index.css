@@ -1,27 +1,70 @@
-body {
-    margin: 20px;
-    padding: 0;
-    font-family: sans-serif;
-    background-color:honeydew;
-  }
-
-.game{
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-
-  
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
+
+body {
+  margin: 20px;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: honeydew;
+}
+
+.game {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.game-info {
+  margin-bottom: 20px;
+  background: #19a0d9;
+  padding: 7px;
+  text-align: center;
+  color: #fff;
+  min-height: 100px;
+  border-radius: 7px;
+}
+.info {
+  display: block;
+  margin-top: 15px;
+}
+
 .gamestatus {
-    /* background-color:lightblue;
+  /* background-color:lightblue;
     font-style: italic;
     color: white; */
-    margin-bottom: 20px;
-    background: #19a0d9;
-    padding: 7px;
-    text-align: center;
-    color: #fff;
-    min-height: 100px;
-    border-radius: 7px;
-    
+  margin-bottom: 20px;
+  background: #19a0d9;
+  padding: 7px;
+  text-align: center;
+  color: #fff;
+  min-height: 100px;
+  border-radius: 7px;
+}
+.cell {
+  background: #7b7b7b;
+  border: 1px solid #fff;
+  float: left;
+  line-height: 45px;
+  height: 45px;
+  text-align: center;
+  width: 45px;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 600;
+}
+.hidden {
+  background: #2e2829;
+}
+
+.is-flag,
+.is-mine {
+  color: #fc543c;
+}
+
+.clear {
+  clear: both;
+  content: "";
 }

@@ -6,7 +6,7 @@ const Board = ({ boderState }) => {
     gamestatus: "game is processing",
     mineCount: boderState.mines,
   };
-
+  let currentData = null;
   const createEmptyArray = () => {
     //创建一个二维数组，记录每一个cell的状态
     const data = [];
@@ -21,13 +21,15 @@ const Board = ({ boderState }) => {
           isRevealed: false,
           isEmpty: false,
           neighbour: 0,
+          className: "",
         };
       }
     }
     //console.log(data)
-    return data;
+    currentData = data;
+    return currentData;
   };
-
+  //记录下不同操作后的data
   let plantMines = () => {
     //随机的放入地雷
     let data = createEmptyArray();
@@ -45,7 +47,8 @@ const Board = ({ boderState }) => {
       }
     }
     //console.log(data)
-    return data; //返回值为随机添加了mines之后的二维数组
+    currentData = data;
+    return currentData; //返回值为随机添加了mines之后的二维数组
   };
 
   const getNeighbour = () => {
@@ -68,11 +71,12 @@ const Board = ({ boderState }) => {
           if (aroundCell === 0) {
             updata[i][j].isEmpty = true;
           }
-          updata[i][j].mineCount = aroundCell;
+          updata[i][j].neighbour = aroundCell;
         }
       }
     }
-    return updata;
+    currentData = updata;
+    return currentData;
   };
 
   const traverseBoard = (x, y, data) => {
@@ -122,108 +126,185 @@ const Board = ({ boderState }) => {
     return el;
   };
 
-  let currentData = getNeighbour(); //currentData为此时防放置地雷完成之后的所有的cell的数据，并且每个cell周围的地雷数量已经得到
-  //console.log(currentData)
-  const renderBoard = (currentData) => {   //在每次点击之后，渲染<cell>组件，进行cell状态的判断
-    currentData.map((datarow) => {
-      datarow.map((dataitem) => {
-        return (
-          <div>
-            <Cell
-              data={currentData}
-              onClick={() => handleClick(dataitem.x, dataitem.y)}
-              onContextMenu={() => handleContexMenu()}
-            />
-          </div>
-        );
-      });
-      return null
-    });
-  };
+  currentData = getNeighbour(); //currentData为此时防放置地雷完成之后的所有的cell的数据，并且每个cell周围的地雷数量已经得到
+  // console.log(currentData);
+  // const renderBoard = (currentData) => {
+  //   //在每次点击之后，渲染<cell>组件，进行cell状态的判断
+  //   currentData.map((datarow) => {
+  //     datarow.map((dataitem) => {
+  //       return (
+  //         <div>
+  //           <Cell
+  //             data={dataitem} //传入cell组件的data应该为最小单元的数据
+  //             onClickCell={() => handleClick(dataitem.x, dataitem.y)}
+  //             onContextMenu={() => handleContexMenu(dataitem.x, dataitem.y)}
+  //           />
+  //         </div>
+  //       );
+  //     });
+  //     return null;
+  //   });
+  // };
   const revealBoard = () => {
     //将所有的cell都设置为已被点击
     let updateBoard = currentData;
-    updateBoard.map((datarow) => {
-      datarow.map((dataitem) => {
+    updateBoard.forEach((datarow) => {
+      datarow.forEach((dataitem) => {
         dataitem.isRevealed = true;
       });
     });
-    currentData = updateBoard;
-    return currentData;
+    return updateBoard;
+    // updateBoard.forEach((datarow) => {
+    //   datarow.foreach((dataitem) => {
+    //     dataitem.isRevealed = true;
+    //   });
+    // });
+    // currentData = updateBoard;
+    // return currentData;
   };
 
-  const getHidden = (data) => {   //找到所有被标记的cell，放入数组mineArray中
+  const getHidden = (data) => {
+    //找到所有被标记的cell，放入数组mineArray中
     let mineArray = [];
-    data.map((datarow) => {
-      datarow.map((dataitem) => {
-        if (dataitem.isRevealed === true  ) {
+    data.foreach((datarow) => {
+      datarow.foreach((dataitem) => {
+        if (dataitem.isRevealed === true) {
           mineArray.push(dataitem);
         }
       });
     });
-    return mineArray;
+    currentData = mineArray;
+    return currentData;
   };
   const getFlag = (data) => {
     let mineArray = [];
-    data.map((datarow) => {
-      datarow.map((dataitem) => {
+    data.foreach((datarow) => {
+      datarow.foreach((dataitem) => {
         if (dataitem.isFlag === true) mineArray.push(dataitem);
       });
     });
     return mineArray;
   };
-  const handleClick = (x, y) => {
+  const getMines = (data) => {
+    let mineArray = [];
+    data.foreach((datarow) => {
+      datarow.foreach((dataitem) => {
+        if (dataitem.isMine === true) mineArray.push(dataitem);
+      });
+    });
+    return mineArray;
+  };
+  const handleClick = (x, y,cur) => {
     //当cell被点击时
-    let updata = currentData;
-    if (updata[x][y].isMine === true) {   //当点击到地雷之后，结束游戏
+    console.log('click')
+    let updata = cur;
+    if (updata[x][y].isMine === true) {
+      //当点击到地雷之后，结束游戏
       state.gamestatus = "You are lose";
       revealBoard(); //将所有的cell都设置为已被点击
       alert("game  over");
+     
     }
-    if(updata[x][y].isRevealed || !updata[x][y].isFlag) return null  //当点击到已经被标志过的cell，返回空
-    if(getHidden(updata).length === state.mineCount){ 
-        state.gamestatus = 'You are win !';
-        renderBoard();
-        alert('you win')   
-      
+    if (updata[x][y].isRevealed || !updata[x][y].isFlag) return null; //当点击到已经被标志过的cell，返回空
+    if (getHidden(updata).length === state.mineCount) {
+      state.gamestatus = "You are win !";
+      revealBoard();
+      alert("you win");
     }
-    if(!updata[x][y].isEmpty) {
-        updata = revealEmpty(x,y,updata);   //当点击到空的cell时，递归找出所有的空节点
+    if (!updata[x][y].isEmpty) {
+      updata = revealEmpty(x, y, updata); //当点击到空的cell时，递归找出所有的空节点
     }
-    return updata;
+    // currentData = updata;
+    // console.log(currentData)
+    // return currentData;
   };
 
-
-  const revealEmpty = (x,y,data) => {  //递归找到周围的所有空节点，可以被显示的cell的要求为：没有被标记，没有被点击，不是炸弹，且为空 ？？
-    let area = traverseBoard(x,y,data);
-    area.map(value => {
-      if(value.isFlag === false && value.isRevealed === false && (value.isEmpty === true || value.isMine === false)){
-        data[value.x][value.y]  = true;
+  const revealEmpty = (x, y, data) => {
+    //递归找到周围的所有空节点，可以被显示的cell的要求为：没有被标记，没有被点击，不是炸弹，且为空 ？？
+    let area = traverseBoard(x, y, data);
+    area.map((value) => {
+      if (
+        value.isFlag === false &&
+        value.isRevealed === false &&
+        (value.isEmpty === true || value.isMine === false)
+      ) {
+        data[value.x][value.y] = true;
       }
-      if(value.isEmpty === false) revealBoard(value.x,value.y,data)
-      return null
+      if (value.isEmpty === false) revealBoard(value.x, value.y, data);
+      return null;
+    });
+    currentData = data;
+    return currentData;
+  };
+
+  const handleContexMenu = (e, x, y) => {
+    //定义右键的点击事件
+    e.preventDefault();
+
+    let updata = currentData;
+
+    let mine = state.mineCount;
+    //let win = false;
+
+    if (updata[x][y].isFlag === false) {
+      //未被标记，则标记
+      updata[x][y].isFlag = true;
+      mine--;
+    }
+    if (updata[x][y].isRevealed === true) {
+      //已经被点击，则返回空
+      return null;
+    }
+    if (updata[x][y].isFlag === true) {
+      //已经被标记则取消
+      updata[x][y].isFlag = false;
+      mine++;
+    }
+    if (mine === 0) {
+      const mineArray = getMines(updata);
+      const flagArray = getFlag(updata);
+      if (JSON.stringify(mineArray) === JSON.stringify(flagArray)) {
+        revealBoard();
+        state.gamestatus = "you are win";
+        alert("you are win!");
+      }
+    }
+
+    currentData = updata;
+    return currentData;
+  };
+  const renderBoard = (currentData) => {
+    console.log('render cell')
+   return  currentData.map((datarow) => {
+      return datarow.map((dataitem) => {
+        return (
+          <div key={dataitem.x * datarow.length + dataitem.y}>
+            <Cell
+              data={dataitem}
+              onC={() => {
+                handleClick(dataitem.x, dataitem.y,currentData);
+              }}
+              cMenu={(e) => {
+                handleContexMenu(e, dataitem.x, dataitem.y);
+              }}
+            />
+            {(datarow[datarow.length - 1] === dataitem) ? <div className="clear" /> : ""}
+          </div>
+        );
+      });
     })
-
-    return data;
-  } 
-
-  const handleContexMenu = () => {   //定义
-
   }
 
 
   return (
-    <div>
-      <div className="gamestatus">
-        <h1>mines: {state.mineCount}</h1>
-        <h1>{state.gamestatus}</h1>
-      </div>
-
-      <Cell cellState={currentData.map((cell) => cell)} />
-      <div>
-        <span>地雷： {state.mineCount}</span>
+    <div className="board">
+      <div className="game-info">
+        <span className="info">mines： {state.mineCount}</span>
         <br />
-        <span>游戏进程 ：{state.gamestatus}</span>
+        <span className="info">{state.gamestatus}</span>
+      </div>
+      <div>
+        {renderBoard(currentData)}
       </div>
     </div>
   );

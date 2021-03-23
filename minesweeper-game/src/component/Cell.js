@@ -1,33 +1,38 @@
-import React from 'react'
+import React from "react";
 
 
-const Cell = (date,onClickCell,onContextMenu) => {
-    
-    const cellContent = () => {
-        if(!date.isRevealed){
-            return date.isFlaged ? '🚩' : ''
-        }
-        if(!date.isMine){
-            return '💣'
-        }
-        if(date.neightbour === 0){
-            return null
-        }else {
-            return date.neightbour
-        }
+const Cell = (props) => {
+  const { data } = props;
+
+  let currentData = data;
+  //console.log(currentData)
+  //console.log('data:',data);
+  let className =
+    "cell" +
+    (currentData.isRevealed ? " " : " hidden") +
+    (currentData.isMine ? " is-mine" : " ") +
+    (currentData.isFlaged ? " is-flag" : " ");
+  console.log(className)
+  const cellContent = () => {
+
+    if (!currentData.isRevealed) {
+      return currentData.isFlaged ? "🚩" : "";
     }
-    console.log(date)
-   
-    return (
-        <div onClickCell = {onClickCell} 
-        // onContextMenu = {onContextMenu}
-        >
-            {cellContent()}
-            
-        </div>
-    )
+    if (currentData.isMine) {
+      return "💣";
+    }
+    if (currentData.neightbour === 0) {
+      return null;
+    } else {
+      return currentData.neightbour;
+    }
+  };
 
-    
-}
+  return (
+    <div className={className} onClick={props.onC}>
+      {cellContent()}
+    </div>
+  );
+};
 
 export default Cell;

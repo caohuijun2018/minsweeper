@@ -9,10 +9,11 @@ const Game = () => {
     width: 8,
     mines: 10,
   };
-
+// console.log(currentData)
   return (
     <div className="game">
-      <Board boderState={boderState} />
+      <Board boderState={boderState}   />
+     
     </div>
   );
 };
