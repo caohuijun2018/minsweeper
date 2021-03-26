@@ -1,19 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import Board from "./component/Board";
 import "./index.css";
 
 const Game = () => {
-  let boderState = {
+  const [boderState, setBorderState] = useState({
     height: 8,
     width: 8,
     mines: 10,
-  };
-// console.log(currentData)
+  });
+  // console.log(currentData)
   return (
     <div className="game">
-      <Board boderState={boderState}   />
-     
+      <Board boderState={boderState} setBorderState={setBorderState} />
     </div>
   );
 };
