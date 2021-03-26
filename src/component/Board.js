@@ -64,7 +64,7 @@ const Board = ({ boderState }) => {
 
           area.forEach((value) => {
             //console.log("value:",value.isMine)
-            if (value.isMine === true) aroundCell++; //找到范围内所有的地雷的数量
+            if (value.isMine ) aroundCell++; //找到范围内所有的地雷的数量
           });
           if (aroundCell === 0) {
             updata[i][j].isEmpty = true;
@@ -82,7 +82,7 @@ const Board = ({ boderState }) => {
   }, []);
   const traverseBoard = (x, y, data) => {
     //寻在八个位置的地雷的数量，并返回
-    const el = [];
+    let  el = [];
 
     //up
     if (x > 0) {
@@ -123,7 +123,7 @@ const Board = ({ boderState }) => {
     if (x < boderState.height - 1 && y > 0) {
       el.push(data[x + 1][y - 1]);
     }
-
+    
     return el;
   };
 
@@ -133,44 +133,39 @@ const Board = ({ boderState }) => {
 
   const revealBoard = () => {
     //将所有的cell都设置为已被点击
-    let updateBoard = currentData;
-    updateBoard.forEach((datarow) => {
+    console.log('reverlAll')
+    const updata = currentData
+    updata.forEach((datarow) => {
       datarow.forEach((dataitem) => {
         dataitem.isRevealed = true;
       });
     });
-    return updateBoard;
-    // updateBoard.forEach((datarow) => {
-    //   datarow.foreach((dataitem) => {
-    //     dataitem.isRevealed = true;
-    //   });
-    // });
-    // currentData = updateBoard;
-    // return currentData;
+    setCurrentData(updata)
+    
   };
 
   const getHidden = (data) => {
     //找到所有被标记的cell，放入数组mineArray中
     let mineArray = [];
-    data.foreach((datarow) => {
-      datarow.foreach((dataitem) => {
+    data.forEach((datarow) => {
+      datarow.forEach((dataitem) => {
         if (dataitem.isRevealed === true) {
           mineArray.push(dataitem);
         }
       });
     });
 
-    setCurrentData(mineArray);
+   return mineArray
   };
-  // const getFlag = (data) => {
-  //   let mineArray = [];
-  //   data.foreach((datarow) => {
-  //     datarow.foreach((dataitem) => {
-  //       if (dataitem.isFlag === true) mineArray.push(dataitem);
-  //     });
-  //   });
-  //   setCurrentData(mineArray);
-  // };
+  const getFlag = (data) => {
+    let mineArray = [];
+    data.forEach((datarow) => {
+      datarow.forEach((dataitem) => {
+        if (dataitem.isFlag === true) mineArray.push(dataitem);
+      });
+    });
+    return mineArray
+  };
   // const getMines = (data) => {
   //   let mineArray = [];
   //   data.foreach((datarow) => {
@@ -180,46 +175,71 @@ const Board = ({ boderState }) => {
   //   });
   //   return mineArray;
   // };
-  const handleClick = (x, y, cur) => {
-    //当cell被点击时
-    console.log("click");
-    let updata = cur;
-    if (updata[x][y].isMine === true) {
-      //当点击到地雷之后，结束游戏
-      setGamestatus("game over");
-      revealBoard(); //将所有的cell都设置为已被点击
-     
-      alert("game  over");
-    }
-    if (updata[x][y].isRevealed || !updata[x][y].isFlag) return null; //当点击到已经被标志过的cell，返回空
-    if (getHidden(updata).length === mineCount) {
-      setGamestatus("you win");
-      revealBoard();
-      alert("you win");
-    }
-    if (!updata[x][y].isEmpty) {
-      updata = revealEmpty(x, y, updata); //当点击到空的cell时，递归找出所有的空节点
-    }
 
-   
-  };
-
-  const revealEmpty = (x, y, data) => {
+  const revealEmpty = (x, y, data, depth) => {
+    console.log('revealEmpty', x, y ,data, depth)
+    if (depth > 10) {
+        return
+    }
     //递归找到周围的所有空节点，可以被显示的cell的要求为：没有被标记，没有被点击，不是炸弹，且为空 ？？
     let area = traverseBoard(x, y, data);
-    area.map((value) => {
+    // console.log("area",area)
+    area.forEach((value) => {
       if (
         value.isFlag === false &&
         value.isRevealed === false &&
         (value.isEmpty === true || value.isMine === false)
       ) {
-        data[value.x][value.y] = true;
+        data[value.x][value.y].isRevealed = true;
       }
-      if (value.isEmpty === false) revealBoard(value.x, value.y, data);
-      return null;
+      if (value.isEmpty === false) revealEmpty(value.x, value.y, data, depth+1);  //递归
+      
     });
     return data;
   };
+  const handleClick = (x, y) => {
+    //当cell被点击时
+    console.log("click");
+    let updata = currentData;
+    console.log(updata)
+    if(updata[x][y].isRevealed ) return null;
+    
+    if (updata[x][y].isMine === true) {
+      //当点击到地雷之后，结束游戏
+      setGamestatus("game over");
+      revealBoard(); //将所有的cell都设置为已被点击
+      alert("game  over");
+    }
+
+    
+   
+
+    if(updata[x][y].isEmpty) {
+      updata =  revealEmpty(x,y,updata, 0)
+    }
+
+    if(getHidden(updata).length === mineCount) {
+      setGamestatus("you win");
+      revealBoard();
+      alert('you win')
+    }
+    updata[x][y].isRevealed = true;
+  //   if (updata[x][y].isRevealed || !updata[x][y].isFlag) return null; //当点击到已经被标志过的cell，返回空
+  //   if (getHidden(updata).length === mineCount) {
+  //     setGamestatus("you win");
+  //     revealBoard();
+  //     alert("you win");
+  //   }
+  //   if (!updata[x][y].isEmpty) {
+  //     updata = revealEmpty(x, y, updata); //当点击到空的cell时，递归找出所有的空节点
+  //   }
+  //  updata[x][y].isRevealed = true
+  //  console.log(updata)
+    setCurrentData(updata)
+    setMineCount(mineCount - getFlag(currentData).length )
+  };
+
+ 
 
   // const handleContexMenu = (e, x, y) => {
   //   //定义右键的点击事件
@@ -267,7 +287,7 @@ const Board = ({ boderState }) => {
           <div key={dataitem.x * datarow.length + dataitem.y}>
             <Cell
               data={dataitem}
-              onClick={() => handleClick(dataitem.x, dataitem.y, currentData)}
+              onClick={() => handleClick(dataitem.x, dataitem.y)}
             />
             {datarow[datarow.length - 1] === dataitem ? (
               <div className="clear" />
