@@ -1,35 +1,33 @@
 import React from "react";
 
-
-const Cell = (props) => {
-  const { data } = props;
-
-  let currentData = data;
-  //console.log(currentData)
-  //console.log('data:',data);
+const Cell = ({data,onClick}) => {
+  
+ 
   let className =
     "cell" +
-    (currentData.isRevealed ? " " : " hidden") +
-    (currentData.isMine ? " is-mine" : " ") +
-    (currentData.isFlaged ? " is-flag" : " ");
-  console.log(className)
-  const cellContent = () => {
+    (data.isRevealed ? " " : " hidden") +
+    (data.isMine ? " is-mine" : " ") +
+    (data.isFlaged ? " is-flag" : " ");
 
-    if (!currentData.isRevealed) {
-      return currentData.isFlaged ? "🚩" : "";
+
+  
+  const cellContent = () => {
+    
+    if (!data.isRevealed) {
+      return data.isFlaged ? "🚩" : "";
     }
-    if (currentData.isMine) {
+    if (data.isMine) {
       return "💣";
     }
-    if (currentData.neightbour === 0) {
+    if (data.neightbour === 0) {
       return null;
     } else {
-      return currentData.neightbour;
+      return data.neightbour;
     }
   };
-
+  console.log(className)
   return (
-    <div className={className} onClick={props.onC}>
+    <div className={className} onClick={onClick}>
       {cellContent()}
     </div>
   );
