@@ -25,7 +25,7 @@ const Cell = ({data,onClick}) => {
       return data.neightbour;
     }
   };
-  console.log(className)
+  // console.log(className)
   return (
     <div className={className} onClick={onClick}>
       {cellContent()}
