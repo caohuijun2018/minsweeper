@@ -38,7 +38,7 @@ const changeLevel3 = () => {
   setBoserState(state)
   
 }
-console.log(boderState)
+// console.log(boderState)
   return (
     <div className="game">
       <div className = 'info'>
