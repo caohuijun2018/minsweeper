@@ -5,8 +5,8 @@ const Board = ({ boderState }) => {
   // console.log(boderState)
   const [gamestatus, setGamestatus] = useState("game is processing");
   const [mineCount, setMineCount] = useState(boderState.mine);
-  const [currentDataRaw,setCurrentData] = useState(null);
-  const currentData = JSON.parse(JSON.stringify(currentDataRaw))
+  const [currentDataRaw, setCurrentData] = useState(null);
+  const currentData = JSON.parse(JSON.stringify(currentDataRaw));
   // const [currentData, setCurrentData] = useState(null);
 
   const createEmptyArray = () => {
@@ -166,12 +166,14 @@ const Board = ({ boderState }) => {
         if (dataitem.isFlag === true) mineArray.push(dataitem);
       });
     });
+    console.log(mineArray)
     return mineArray;
   };
-  const getMines = (data) => {  //  找到所有mines所在的位置
+  const getMines = (data) => {
+    //  找到所有mines所在的位置
     let mineArray = [];
-    data.foreach((datarow) => {
-      datarow.foreach((dataitem) => {
+    data.forEach((datarow) => {
+      datarow.forEach((dataitem) => {
         if (dataitem.isMine === true) mineArray.push(dataitem);
       });
     });
@@ -194,7 +196,6 @@ const Board = ({ boderState }) => {
         value.isFlag === false &&
         value.isRevealed === false &&
         (value.isMine === false || value.isEmpty === true)
-        
       ) {
         data[value.x][value.y].isRevealed = true;
         //   if (value.isEmpty === true && value.isRecursion === false)
@@ -229,7 +230,7 @@ const Board = ({ boderState }) => {
     if (updata[x][y].isEmpty === true) {
       console.log("this is empty");
       updata = revealEmpty(x, y, updata);
-      console.log('updata:',updata)
+      console.log("updata:", updata);
       // setCurrentData(updata);
     }
 
@@ -242,46 +243,52 @@ const Board = ({ boderState }) => {
     // updata[x][y].isRevealed = true;
 
     setCurrentData(updata);
-    setMineCount(mineCount - getFlag(updata).length);
+    
+    // setMineCount(mineCount - getFlag(updata).length);
   };
 
   const handleContexMenu = (e, x, y) => {
     //定义右键的点击事件
     e.preventDefault();
-    console.log('右击')
-    let updata = currentData;
+    console.log("右击");
 
+    let updata = currentData;
+    // console.log(updata);
     let mine = mineCount;
     //let win = false;
     if (updata[x][y].isRevealed === true) {
       //已经被点击，则返回空
-      return ;
+      return;
     }
     if (updata[x][y].isFlag === false) {
       //未被标记，则标记
       updata[x][y].isFlag = true;
+
       mine--;
-    }else {
-       //已经被标记则取消
-       updata[x][y].isFlag = false;
-       mine++;
+    } else {
+      //已经被标记则取消
+      updata[x][y].isFlag = false;
+
+      mine++;
     }
-    
-    
+
     if (mine === 0) {
       const mineArray = getMines(updata);
       const flagArray = getFlag(updata);
       if (JSON.stringify(mineArray) === JSON.stringify(flagArray)) {
-        setGamestatus('you are win!')
+        setGamestatus("you are win!");
         revealBoard();
         alert("you are win!");
+      }else {
+        setGamestatus("game over!");
+        revealBoard();
+        alert("you are lose!");
       }
     }
-
+    // console.log("updata:", updata);
     setCurrentData(updata);
-    setMineCount({...mine})
+    setMineCount(mine);
   };
-
 
   const renderBoard = (currentData) => {
     // console.log('render cell')
@@ -293,7 +300,7 @@ const Board = ({ boderState }) => {
             <Cell
               data={dataitem}
               onClick={() => handleClick(dataitem.x, dataitem.y)}
-              contextMenu={(e) => handleContexMenu(e,dataitem.x,dataitem.y)}
+              contextMenu={(e) => handleContexMenu(e, dataitem.x, dataitem.y)}
             />
             {datarow[datarow.length - 1] === dataitem ? (
               <div className="clear" />
@@ -305,7 +312,7 @@ const Board = ({ boderState }) => {
       });
     });
   };
-   console.log(currentData);
+  console.log(currentData);
   return (
     <div className="board">
       <div className="game-info">
