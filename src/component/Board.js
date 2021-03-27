@@ -4,7 +4,9 @@ import Cell from "./Cell";
 const Board = ({ boderState }) => {
   const [gamestatus, setGamestatus] = useState("game is processing");
   const [mineCount, setMineCount] = useState(boderState.mine);
-  const [currentData, setCurrentData] = useState(null);
+  const [currentDataRaw,setCurrentData] = useState(null);
+  const currentData = JSON.parse(JSON.stringify(currentDataRaw))
+  // const [currentData, setCurrentData] = useState(null);
 
   const createEmptyArray = () => {
     //创建一个二维数组，记录每一个cell的状态
@@ -147,7 +149,7 @@ const Board = ({ boderState }) => {
     let mineArray = [];
     data.forEach((datarow) => {
       datarow.forEach((dataitem) => {
-        if (dataitem.isRevealed=== false) {
+        if (dataitem.isRevealed === false) {
           mineArray.push(dataitem);
         }
       });
@@ -175,8 +177,8 @@ const Board = ({ boderState }) => {
   //   return mineArray;
   // };
 
-  const revealEmpty = (x, y, data, deep) => {
-    console.log('找到周围所有的空节点')
+  const revealEmpty = (x, y, data) => {
+    console.log("找到周围所有的空节点");
     // console.log("revealEmpty", x, y, data, deep);
     // if (depth > 10) {
     //   return;
@@ -185,56 +187,61 @@ const Board = ({ boderState }) => {
     let area = traverseBoard(x, y, data);
     // console.log("area",area)
 
-    area.forEach((value) => {
+    area.map((value) => {
       // value.isRecursion = true;
       if (
         value.isFlag === false &&
         value.isRevealed === false &&
-        value.isMine === false &&
-        value.isEmpty === true
-        // (value.isEmpty === true || value.isMine === false)
+        (value.isMine === false || value.isEmpty === true)
+        
       ) {
         data[value.x][value.y].isRevealed = true;
-      //   if (value.isEmpty === true && value.isRecursion === false)
-      //     revealEmpty(value.x, value.y, data, deep + 1); //递归
-      // }
-      if (value.isEmpty === true)
-      revealEmpty(value.x, value.y, data, deep + 1); //递归
-  }
+        //   if (value.isEmpty === true && value.isRecursion === false)
+        //     revealEmpty(value.x, value.y, data, deep + 1); //递归
+        // }
+        if (value.isEmpty === true) revealEmpty(value.x, value.y, data); //递归
+      }
     });
     return data;
   };
   const handleClick = (x, y) => {
     //当cell被点击时
     console.log("click");
-    let updata = currentData;
-    console.log(updata);
-    if (updata[x][y].isRevealed === true) return null;
 
-    if (updata[x][y].isMine === true) {
+    // console.log(updata);
+    if (
+      currentData[x][y].isRevealed === true ||
+      currentData[x][y].isFlag === true
+    ) {
+      return null;
+    }
+
+    if (currentData[x][y].isMine === true) {
       //当点击到地雷之后，结束游戏
       setGamestatus("game over");
       revealBoard(); //将所有的cell都设置为已被点击
       alert("game  over");
     }
-
+    let updata = currentData;
+    updata[x][y].isFlag = false;
+    updata[x][y].isRevealed = true;
     if (updata[x][y].isEmpty === true) {
-      console.log('this is empty')
+      console.log("this is empty");
       updata = revealEmpty(x, y, updata);
-      setCurrentData(updata);
+      console.log('updata:',updata)
+      // setCurrentData(updata);
     }
 
     if (getHidden(updata).length === mineCount) {
       setGamestatus("you win");
+      setMineCount("0");
       revealBoard();
       alert("you win");
     }
     // updata[x][y].isRevealed = true;
 
-    
-    updata[x][y].isRevealed = true;
-    setCurrentData(updata)
-    setMineCount(mineCount - getFlag(currentData).length);
+    setCurrentData(updata);
+    setMineCount(mineCount - getFlag(updata).length);
   };
 
   // const handleContexMenu = (e, x, y) => {
@@ -295,7 +302,7 @@ const Board = ({ boderState }) => {
       });
     });
   };
-  console.log(currentData);
+  // console.log(currentData);
   return (
     <div className="board">
       <div className="game-info">
