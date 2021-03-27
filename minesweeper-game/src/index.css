@@ -5,14 +5,14 @@
 }
 
 body {
-  margin: 20px;
+  margin: 10px;
   padding: 0;
   font-family: sans-serif;
   background-color: honeydew;
 }
 
 .game {
-  max-width: 400px;
+  max-width: auto;
   margin: 0 auto;
   padding: 20px;
 }
