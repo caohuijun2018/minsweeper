@@ -41,7 +41,9 @@ const changeLevel3 = () => {
 // console.log(boderState)
   return (
     <div className="game">
+       <h1 className = 'title-game'>Welcome to Minesweeper</h1>
       <div className = 'info'>
+     
       <button onClick = {() => changeLevel1()}>beginner</button>
       <button onClick = {() => changeLevel2()}>middle</button>
       <button onClick = {() => changeLevel3()}>expert</button>
