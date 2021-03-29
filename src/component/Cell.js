@@ -7,17 +7,17 @@ const Cell = ({ data, onClick, contextMenu }) => {
     "cell" +
     (data.isRevealed === true ? " " : " hidden") +
     (data.isMine === true ? " is-mine" : " ") +
-    (data.isFlaged === true ? " is-flag" : " ");
+    (data.isFlag=== true ? " is-flag" : " ");
 
   const cellContent = () => {
     // console.log("cellcontent");
     if (data.isRevealed === false) {
       //isRevealed为false时执行
-      if (data.isFlaged) {
+      if (data.isFlag) {
         console.log('flag')
         return "🚩";
       }
-       if(data.isMine) return '❌'  //debug时用于标记地雷位置
+      //  if(data.isMine) return '❌'  //debug时用于标记地雷位置
     } else {
       //点击之后，如果为地雷，则显示地雷。如果为空则显示空，如果有neighbour则显示数字
      

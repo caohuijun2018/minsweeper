@@ -10,11 +10,11 @@ const Game = () => {
    width:8,
    mine:10
  })
-// console.log(currentData)
+
 const changeLevel1 = () => {
   const state = {
-    height : 10,
-    width: 10,
+    height : 8,
+    width: 8,
     mine: 10
   }
   setBoserState(state)
@@ -33,7 +33,7 @@ const changeLevel3 = () => {
   const state = {
     height : 15,
     width: 15,
-    mine: 25
+    mine: 40
   }
   setBoserState(state)
   
