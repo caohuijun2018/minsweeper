@@ -1,20 +1,92 @@
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
 body {
-  margin: 10px;
+  margin: 20px;
   padding: 0;
   font-family: sans-serif;
   background-color: honeydew;
 }
 
 .game {
-  max-width: auto;
+  display: inline-block;
+  color: black;
+  width: -webkit-fill-available;
+  height: auto;
+  border: 5px black;
+}
+.info {
+  display: flex;
+  justify-content: center;
+  /* margin: 90%; */
+}
+button {
+  min-width: 60px;
+  padding: 5px 8px;
+  background: #fff;
+  color: #4daff9;
+  border: 1px solid #4daff9;
+  display: inline-flexbox;
+  justify-self: center;
+}
+
+.board {
+    color: darkslategray; 
+    font-family: monospace;
+    font-size: larger;
+    display: block;
+    /* justify-content: center; */
+    /* height: 100%; */
+}
+.game-info {
+  margin-bottom: 20px;
+  background: #19a0d9;
+  padding: 7px;
+  text-align: center;
+  color: #fff;
+  border-radius: 7px;
+  display: block;
+}
+
+.cell-all {
+  display: block;
+  size: initial;
+ 
+  padding: 1000px;
+}
+
+.cell {
+ 
+  background: #7b7b7b;
+  border: 1px solid #fff;
+  height: 45px;
+  width: 45px;
+  
+}
+.hidden {
+  background: #2e2829;
+}
+
+.is-flag,
+.is-mine {
+  color: #fc543c;
+}
+
+/* *,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+ 
+body {
+  margin: 20px; 
+  padding: 0;
+  font-family: sans-serif;
+  background-color: honeydew;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
-  padding: 20px;
 }
 .game-info {
   margin-bottom: 20px;
@@ -26,15 +98,16 @@ body {
   border-radius: 7px;
 }
 .info {
-  display: block;
+  display: flex;
   margin-top: 15px;
+  justify-content:center;
 }
 
 .gamestatus {
   /* background-color:lightblue;
     font-style: italic;
     color: white; */
-  margin-bottom: 20px;
+/* margin-bottom: 20px;
   background: #19a0d9;
   padding: 7px;
   text-align: center;
@@ -45,7 +118,7 @@ body {
 .cell {
   background: #7b7b7b;
   border: 1px solid #fff;
-  float: left;
+  float:left;
   line-height: 45px;
   height: 45px;
   text-align: center;
@@ -54,6 +127,8 @@ body {
   border-radius: 5px;
   color: #fff;
   font-weight: 600;
+  display: flex;
+  justify-content: center;
 }
 .hidden {
   background: #2e2829;
@@ -67,4 +142,4 @@ body {
 .clear {
   clear: both;
   content: "";
-}
+} */

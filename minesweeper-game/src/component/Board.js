@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Cell from "./Cell";
 
 const Board = ({ boderState }) => {
-  // console.log(boderState)
+  console.log(boderState.mine)
   const [gamestatus, setGamestatus] = useState("game is processing");
   const [mineCount, setMineCount] = useState(boderState.mine);
   const [currentDataRaw, setCurrentData] = useState(null);
@@ -12,7 +12,9 @@ const Board = ({ boderState }) => {
   const createEmptyArray = () => {
     //创建一个二维数组，记录每一个cell的状态
     const data = [];
+    
     for (let i = 0; i < boderState.height; i++) {
+      // console.log(boderState.height)
       data.push([]);
       for (let j = 0; j < boderState.width; j++) {
         data[i][j] = {
@@ -34,8 +36,9 @@ const Board = ({ boderState }) => {
   //记录下不同操作后的data
   let plantMines = () => {
     //随机的放入地雷
+    
     const data = createEmptyArray();
-
+    
     let randomX,
       randomY,
       minePlanted = 0;
@@ -82,8 +85,10 @@ const Board = ({ boderState }) => {
     // console.log(currentData)
   };
   useEffect(() => {
+    setMineCount(boderState.mine)
     getNeighbour(); //完成数组的初始化
-  }, []);
+  }, [boderState]);
+  console.log(mineCount)
   const traverseBoard = (x, y, data) => {
     //寻在八个位置的地雷的数量，并返回
     let el = [];
@@ -296,17 +301,17 @@ const Board = ({ boderState }) => {
     return currentData.map((datarow) => {
       return datarow.map((dataitem) => {
         return (
-          <div key={dataitem.x * datarow.length + dataitem.y}>
+          <div key={dataitem.x * datarow.length + dataitem.y }>
             <Cell
               data={dataitem}
               onClick={() => handleClick(dataitem.x, dataitem.y)}
               contextMenu={(e) => handleContexMenu(e, dataitem.x, dataitem.y)}
             />
-            {datarow[datarow.length - 1] === dataitem ? (
+            {/* {datarow[datarow.length - 1] === dataitem ? (
               <div className="clear" />
             ) : (
               ""
-            )}
+            )} */}
           </div>
         );
       });
@@ -315,12 +320,12 @@ const Board = ({ boderState }) => {
   console.log(currentData);
   return (
     <div className="board">
-      <div className="game-info">
-        <span className="info">mines： {mineCount}</span>
+      <div className = 'game-info'>
+        <span >mines： {mineCount}</span>
         <br />
-        <span className="info">{gamestatus}</span>
+        <span >{gamestatus}</span>
       </div>
-      <div>{renderBoard(currentData)}</div>
+      <div className = 'cell-all'>{renderBoard(currentData)}</div>
     </div>
   );
 };
