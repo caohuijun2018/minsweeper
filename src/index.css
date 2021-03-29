@@ -1,21 +1,27 @@
 body {
   margin: 20px;
-  padding: 0;
-  font-family: sans-serif;
   background-color: honeydew;
+  display: flex;
+  justify-content: center;
+}
+#root {
+  text-align: center;
 }
 
 .game {
-  display: inline-block;
+  /* display: inline-block;
   color: black;
   width: -webkit-fill-available;
   height: auto;
-  border: 5px black;
+  border: 5px black; */
+}
+.title-game{
+  font-family: 'Times New Roman', Times, serif;
 }
 .info {
   display: flex;
   justify-content: center;
-  /* margin: 90%; */
+
 }
 button {
   min-width: 60px;
@@ -23,123 +29,53 @@ button {
   background: #fff;
   color: #4daff9;
   border: 1px solid #4daff9;
-  display: inline-flexbox;
-  justify-self: center;
+  margin: 10px;
 }
 
 .board {
-    color: darkslategray; 
-    font-family: monospace;
-    font-size: larger;
-    display: block;
-    /* justify-content: center; */
-    /* height: 100%; */
+  /* color: darkslategray;
+  font-family: monospace;
+  font-size: larger;
+  display: block; */
+  /* justify-content: center; */
+  /* height: 100%; */
 }
 .game-info {
   margin-bottom: 20px;
+  background: #19a0d9;
   background: #19a0d9;
   padding: 7px;
   text-align: center;
   color: #fff;
   border-radius: 7px;
-  display: block;
+  font-family: cursive;
+  /* display: block; */
+  font-size: larger;
 }
 
 .cell-all {
-  display: block;
-  size: initial;
+  display: flex;
  
-  padding: 1000px;
+  flex-wrap: wrap;
+  width: 413px;
 }
 
 .cell {
- 
-  background: #7b7b7b;
-  border: 1px solid #fff;
+  border: 1px solid #4f634f;
   height: 45px;
   width: 45px;
-  
-}
-.hidden {
-  background: #2e2829;
-}
-
-.is-flag,
-.is-mine {
-  color: #fc543c;
-}
-
-/* *,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
- 
-body {
-  margin: 20px; 
-  padding: 0;
-  font-family: sans-serif;
-  background-color: honeydew;
-}
-
-.game {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-}
-.game-info {
-  margin-bottom: 20px;
-  background: #19a0d9;
-  padding: 7px;
-  text-align: center;
-  color: #fff;
-  min-height: 100px;
-  border-radius: 7px;
-}
-.info {
-  display: flex;
-  margin-top: 15px;
-  justify-content:center;
-}
-
-.gamestatus {
-  /* background-color:lightblue;
-    font-style: italic;
-    color: white; */
-/* margin-bottom: 20px;
-  background: #19a0d9;
-  padding: 7px;
-  text-align: center;
-  color: #fff;
-  min-height: 100px;
-  border-radius: 7px;
-}
-.cell {
-  background: #7b7b7b;
-  border: 1px solid #fff;
-  float:left;
-  line-height: 45px;
-  height: 45px;
-  text-align: center;
-  width: 45px;
-  cursor: pointer;
   border-radius: 5px;
-  color: #fff;
-  font-weight: 600;
+  color: blue;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  margin: 2px;
 }
 .hidden {
-  background: #2e2829;
+  background: #19a0d9;
 }
 
 .is-flag,
 .is-mine {
   color: #fc543c;
 }
-
-.clear {
-  clear: both;
-  content: "";
-} */
