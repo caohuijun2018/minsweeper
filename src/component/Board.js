@@ -319,13 +319,14 @@ const Board = ({ boderState }) => {
   };
   console.log(currentData);
   return (
-    <div className="board">
+    <div className="board"  >
       <div className = 'game-info'>
         <span >mines： {mineCount}</span>
         <br />
         <span >{gamestatus}</span>
       </div>
-      <div className = 'cell-all'>{renderBoard(currentData)}</div>
+      {console.log(boderState.width)}
+      <div className = 'cell-all'style = {{width: 47 * boderState.width + 2 * (boderState.width * 2)}} >{renderBoard(currentData)}</div>
     </div>
   );
 };
