@@ -62,14 +62,14 @@ button {
 
 .cell {
   border: 1px solid #4f634f;
-  height: 45px;
-  width: 45px;
+  height: 35px;
+  width: 35px;
   border-radius: 5px;
   color: blue;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 2px;
+  margin: 1px;  
 }
 .hidden {
   background: #19a0d9;

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import Cell from "./Cell";
 
 const Board = ({ boderState }) => {
-  console.log(boderState.mine)
+  console.log('boderState.mine',boderState.mine)
   const [gamestatus, setGamestatus] = useState("game is processing");
   const [mineCount, setMineCount] = useState(boderState.mine);
   const [currentDataRaw, setCurrentData] = useState(null);
   const currentData = JSON.parse(JSON.stringify(currentDataRaw));
   // const [currentData, setCurrentData] = useState(null);
+  // console.log(mineCount)
 
   const createEmptyArray = () => {
     //创建一个二维数组，记录每一个cell的状态
@@ -42,7 +43,7 @@ const Board = ({ boderState }) => {
     let randomX,
       randomY,
       minePlanted = 0;
-    while (minePlanted < mineCount) {
+    while (minePlanted < boderState.mine) {
       randomX = (Math.floor(Math.random() * 1000) + 1) % boderState.height;
       randomY = (Math.floor(Math.random() * 1000) + 1) % boderState.width;
 
@@ -84,11 +85,13 @@ const Board = ({ boderState }) => {
     setCurrentData(updata);
     // console.log(currentData)
   };
+ 
   useEffect(() => {
-    setMineCount(boderState.mine)
+    // setMineCount(boderState.mine)
     getNeighbour(); //完成数组的初始化
   }, [boderState]);
-  console.log(mineCount)
+  
+  console.log('mineCount',mineCount)
   const traverseBoard = (x, y, data) => {
     //寻在八个位置的地雷的数量，并返回
     let el = [];
@@ -186,7 +189,7 @@ const Board = ({ boderState }) => {
   };
 
   const revealEmpty = (x, y, data) => {
-    console.log("找到周围所有的空节点");
+    // console.log("找到周围所有的空节点");
     // console.log("revealEmpty", x, y, data, deep);
     // if (depth > 10) {
     //   return;
@@ -317,16 +320,16 @@ const Board = ({ boderState }) => {
       });
     });
   };
-  console.log(currentData);
+  // console.log(currentData);
   return (
     <div className="board"  >
-      <div className = 'game-info'>
-        <span >mines： {mineCount}</span>
+      <div className = 'game-info'  style = {{width: 37 * boderState.width + 2 * (boderState.width * 2) - 40}}>
+        <span >mines： {boderState.mine}</span>
         <br />
         <span >{gamestatus}</span>
       </div>
-      {console.log(boderState.width)}
-      <div className = 'cell-all'style = {{width: 47 * boderState.width + 2 * (boderState.width * 2)}} >{renderBoard(currentData)}</div>
+      {/* {console.log(boderState.width)} */}
+      <div className = 'cell-all'style = {{width: 37 * boderState.width + 2 * (boderState.width * 2)}} >{renderBoard(currentData)}</div>
     </div>
   );
 };
