@@ -24,7 +24,7 @@ const changeLevel2 = () => {
   const state = {
     height : 12,
     width: 12,
-    mine: 20
+    mine: 40
   }
   setBoserState(state)
   
@@ -33,7 +33,7 @@ const changeLevel3 = () => {
   const state = {
     height : 15,
     width: 15,
-    mine: 40
+    mine: 80
   }
   setBoserState(state)
   
