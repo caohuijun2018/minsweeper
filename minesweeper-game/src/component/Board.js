@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import Cell from "./Cell";
 
 const Board = ({ boderState }) => {
-  console.log('boderState.mine',boderState.mine)
+  console.log("boderState.mine", boderState.mine);
   const [gamestatus, setGamestatus] = useState("game is processing");
   const [mineCount, setMineCount] = useState(boderState.mine);
   const [currentDataRaw, setCurrentData] = useState(null);
   const currentData = JSON.parse(JSON.stringify(currentDataRaw));
-  // const [currentData, setCurrentData] = useState(null);
-  // console.log(mineCount)
 
   const createEmptyArray = () => {
     //创建一个二维数组，记录每一个cell的状态
@@ -37,7 +35,7 @@ const Board = ({ boderState }) => {
   //记录下不同操作后的data
   let plantMines = () => {
     //随机的放入地雷
-    
+
     const data = createEmptyArray();
     
     let randomX,
@@ -85,13 +83,13 @@ const Board = ({ boderState }) => {
     setCurrentData(updata);
     // console.log(currentData)
   };
- 
+
   useEffect(() => {
     // setMineCount(boderState.mine)
     getNeighbour(); //完成数组的初始化
   }, [boderState]);
-  
-  console.log('mineCount',mineCount)
+
+  console.log("mineCount", mineCount);
   const traverseBoard = (x, y, data) => {
     //寻在八个位置的地雷的数量，并返回
     let el = [];
@@ -174,7 +172,7 @@ const Board = ({ boderState }) => {
         if (dataitem.isFlag === true) mineArray.push(dataitem);
       });
     });
-    console.log(mineArray)
+    console.log(mineArray);
     return mineArray;
   };
   const getMines = (data) => {
@@ -232,6 +230,7 @@ const Board = ({ boderState }) => {
       revealBoard(); //将所有的cell都设置为已被点击
       alert("game  over");
     }
+    
     let updata = currentData;
     updata[x][y].isFlag = false;
     updata[x][y].isRevealed = true;
@@ -251,7 +250,7 @@ const Board = ({ boderState }) => {
     // updata[x][y].isRevealed = true;
 
     setCurrentData(updata);
-    
+
     // setMineCount(mineCount - getFlag(updata).length);
   };
 
@@ -273,6 +272,7 @@ const Board = ({ boderState }) => {
       updata[x][y].isFlag = true;
 
       mine--;
+     
     } else {
       //已经被标记则取消
       updata[x][y].isFlag = false;
@@ -287,7 +287,7 @@ const Board = ({ boderState }) => {
         setGamestatus("you are win!");
         revealBoard();
         alert("you are win!");
-      }else {
+      } else {
         setGamestatus("game over!");
         revealBoard();
         alert("you are lose!");
@@ -296,6 +296,8 @@ const Board = ({ boderState }) => {
     // console.log("updata:", updata);
     setCurrentData(updata);
     setMineCount(mine);
+    let curMine = mine;
+    console.log('mine:',mine)
   };
 
   const renderBoard = (currentData) => {
@@ -304,7 +306,7 @@ const Board = ({ boderState }) => {
     return currentData.map((datarow) => {
       return datarow.map((dataitem) => {
         return (
-          <div key={dataitem.x * datarow.length + dataitem.y }>
+          <div key={dataitem.x * datarow.length + dataitem.y}>
             <Cell
               data={dataitem}
               onClick={() => handleClick(dataitem.x, dataitem.y)}
@@ -322,14 +324,24 @@ const Board = ({ boderState }) => {
   };
   // console.log(currentData);
   return (
-    <div className="board"  >
-      <div className = 'game-info'  style = {{width: 37 * boderState.width + 2 * (boderState.width * 2) - 40}}>
-        <span >mines： {boderState.mine}</span>
+    <div className="board">
+      <div
+        className="game-info"
+        style={{
+          width: 37 * boderState.width + 2 * (boderState.width * 2) - 40,
+        }}
+      >
+        <span>mines： {boderState.mine}</span>
         <br />
-        <span >{gamestatus}</span>
+        <span>{gamestatus}</span>
       </div>
       {/* {console.log(boderState.width)} */}
-      <div className = 'cell-all'style = {{width: 37 * boderState.width + 2 * (boderState.width * 2)}} >{renderBoard(currentData)}</div>
+      <div
+        className="cell-all"
+        style={{ width: 37 * boderState.width + 2 * (boderState.width * 2) }}
+      >
+        {renderBoard(currentData)}
+      </div>
     </div>
   );
 };

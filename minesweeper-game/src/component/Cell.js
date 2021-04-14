@@ -1,7 +1,11 @@
 import React from "react";
 
+//Styled
+import {CellStyledHiden} from '../Style/CellStyle'
+import {CellISMIne} from '../Style/CellStyle'
+import {CellIsFlag} from '../Style/CellStyle'
+
 const Cell = ({ data, onClick, contextMenu }) => {
-    // console.log('cell data:',data)
 
   let className =
     "cell" +
@@ -17,7 +21,6 @@ const Cell = ({ data, onClick, contextMenu }) => {
         console.log('flag')
         return "🚩";
       }
-      //  if(data.isMine) return '❌'  //debug时用于标记地雷位置
     } else {
       //点击之后，如果为地雷，则显示地雷。如果为空则显示空，如果有neighbour则显示数字
      
@@ -30,12 +33,13 @@ const Cell = ({ data, onClick, contextMenu }) => {
       return " ";
     }
   };
-  // console.log(className)
-  return (
-    <div className={className} onClick={onClick} onContextMenu={contextMenu}>
-      {cellContent()}
-    </div>
-  );
+  
+    return (
+      <CellStyledHiden  onClick={onClick} onContextMenu={contextMenu}>
+        {cellContent()}
+      </CellStyledHiden>
+    );
+  
 };
 
 export default Cell;
