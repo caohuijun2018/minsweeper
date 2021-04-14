@@ -3,46 +3,25 @@ body {
   background-color: honeydew;
   display: flex;
   justify-content: center;
+  font-family: 'Times New Roman', Times, serif;
 }
 #root {
   text-align: center;
 }
 
-.game {
-  /* display: inline-block;
-  color: black;
-  width: -webkit-fill-available;
-  height: auto;
-  border: 5px black; */
-}
-.title-game{
-  font-family: 'Times New Roman', Times, serif;
-}
+
+
 .info {
   display: flex;
   justify-content: center;
 
 }
-button {
-  min-width: 60px;
-  padding: 5px 8px;
-  background: #fff;
-  color: #4daff9;
-  border: 1px solid #4daff9;
-  margin: 10px;
-}
 
-.board {
-  /* color: darkslategray;
-  font-family: monospace;
-  font-size: larger;
-  display: block; */
-  /* justify-content: center; */
-  /* height: 100%; */
-}
+
+
+
 .game-info {
   margin-bottom: 20px;
-  background: #19a0d9;
   background: #19a0d9;
   padding: 7px;
   text-align: center;
@@ -55,27 +34,11 @@ button {
 
 .cell-all {
   display: flex;
- 
   flex-wrap: wrap;
   width: 413px;
 }
 
-.cell {
-  border: 1px solid #4f634f;
-  height: 35px;
-  width: 35px;
-  border-radius: 5px;
-  color: blue;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin: 1px;  
-}
-.hidden {
-  background: #19a0d9;
-}
 
-.is-flag,
-.is-mine {
-  color: #fc543c;
-}
+   
+
+
