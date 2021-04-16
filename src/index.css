@@ -8,18 +8,11 @@ body {
 #root {
   text-align: center;
 }
-
-
-
 .info {
   display: flex;
   justify-content: center;
 
 }
-
-
-
-
 .game-info {
   margin-bottom: 20px;
   background: #19a0d9;
@@ -31,7 +24,6 @@ body {
   /* display: block; */
   font-size: larger;
 }
-
 .cell-all {
   display: flex;
   flex-wrap: wrap;

@@ -11,7 +11,6 @@ const Board = ({ boderState }) => {
   const createEmptyArray = () => {
     //创建一个二维数组，记录每一个cell的状态
     const data = [];
-    
     for (let i = 0; i < boderState.height; i++) {
       // console.log(boderState.height)
       data.push([]);
@@ -25,19 +24,15 @@ const Board = ({ boderState }) => {
           isEmpty: false,
           neighbour: 0,
           className: "",
-          // isRecursion: false,
         };
       }
     }
-    //console.log(data)
     return data;
   };
   //记录下不同操作后的data
   let plantMines = () => {
     //随机的放入地雷
-
     const data = createEmptyArray();
-    
     let randomX,
       randomY,
       minePlanted = 0;
@@ -50,9 +45,7 @@ const Board = ({ boderState }) => {
         minePlanted++;
       }
     }
-    //console.log(data)
     //返回值为随机添加了mines之后的二维数组
-
     return data;
   };
 
@@ -65,11 +58,8 @@ const Board = ({ boderState }) => {
         if (updata[i][j].isMine !== true) {
           //当访问到的cell不是地雷是，返回周围节点的地雷总数和
           let aroundCell = 0;
-
           let area = traverseBoard(updata[i][j].x, updata[i][j].y, updata); //找到需要寻找的范围
-
           area.forEach((value) => {
-            //console.log("value:",value.isMine)
             if (value.isMine === true) aroundCell++; //找到范围内所有的地雷的数量
           });
           if (aroundCell === 0) {
@@ -81,11 +71,9 @@ const Board = ({ boderState }) => {
     }
 
     setCurrentData(updata);
-    // console.log(currentData)
   };
 
   useEffect(() => {
-    // setMineCount(boderState.mine)
     getNeighbour(); //完成数组的初始化
   }, [boderState]);
 
@@ -187,26 +175,20 @@ const Board = ({ boderState }) => {
   };
 
   const revealEmpty = (x, y, data) => {
-    // console.log("找到周围所有的空节点");
-    // console.log("revealEmpty", x, y, data, deep);
-    // if (depth > 10) {
-    //   return;
-    // }
+   
     //递归找到周围的所有空节点，可以被显示的cell的要求为：没有被标记，没有被点击，不是炸弹，且为空 ？？
     let area = traverseBoard(x, y, data);
-    // console.log("area",area)
+    
 
     area.forEach((value) => {
-      // value.isRecursion = true;
+      
       if (
         value.isFlag === false &&
         value.isRevealed === false &&
         (value.isMine === false || value.isEmpty === true)
       ) {
         data[value.x][value.y].isRevealed = true;
-        //   if (value.isEmpty === true && value.isRecursion === false)
-        //     revealEmpty(value.x, value.y, data, deep + 1); //递归
-        // }
+
         if (value.isEmpty === true) revealEmpty(value.x, value.y, data); //递归
       }
     });
@@ -215,8 +197,6 @@ const Board = ({ boderState }) => {
   const handleClick = (x, y) => {
     //当cell被点击时
     console.log("click");
-
-    // console.log(updata);
     if (
       currentData[x][y].isRevealed === true ||
       currentData[x][y].isFlag === true
@@ -227,7 +207,8 @@ const Board = ({ boderState }) => {
     if (currentData[x][y].isMine === true) {
       //当点击到地雷之后，结束游戏
       setGamestatus("game over");
-      revealBoard(); //将所有的cell都设置为已被点击
+      //将所有的cell都设置为已被点击
+      revealBoard(); 
       alert("game  over");
     }
     
@@ -238,7 +219,6 @@ const Board = ({ boderState }) => {
       console.log("this is empty");
       updata = revealEmpty(x, y, updata);
       console.log("updata:", updata);
-      // setCurrentData(updata);
     }
 
     if (getHidden(updata).length === mineCount) {
@@ -247,11 +227,8 @@ const Board = ({ boderState }) => {
       revealBoard();
       alert("you win");
     }
-    // updata[x][y].isRevealed = true;
 
     setCurrentData(updata);
-
-    // setMineCount(mineCount - getFlag(updata).length);
   };
 
   const handleContexMenu = (e, x, y) => {
@@ -260,9 +237,7 @@ const Board = ({ boderState }) => {
     console.log("右击");
 
     let updata = currentData;
-    // console.log(updata);
     let mine = mineCount;
-    //let win = false;
     if (updata[x][y].isRevealed === true) {
       //已经被点击，则返回空
       return;
@@ -293,7 +268,6 @@ const Board = ({ boderState }) => {
         alert("you are lose!");
       }
     }
-    // console.log("updata:", updata);
     setCurrentData(updata);
     setMineCount(mine);
     let curMine = mine;
@@ -301,7 +275,6 @@ const Board = ({ boderState }) => {
   };
 
   const renderBoard = (currentData) => {
-    // console.log('render cell')
     if (!currentData) return null;
     return currentData.map((datarow) => {
       return datarow.map((dataitem) => {
@@ -312,17 +285,12 @@ const Board = ({ boderState }) => {
               onClick={() => handleClick(dataitem.x, dataitem.y)}
               contextMenu={(e) => handleContexMenu(e, dataitem.x, dataitem.y)}
             />
-            {/* {datarow[datarow.length - 1] === dataitem ? (
-              <div className="clear" />
-            ) : (
-              ""
-            )} */}
           </div>
         );
       });
     });
   };
-  // console.log(currentData);
+
   return (
     <div className="board">
       <div
@@ -335,7 +303,6 @@ const Board = ({ boderState }) => {
         <br />
         <span>{gamestatus}</span>
       </div>
-      {/* {console.log(boderState.width)} */}
       <div
         className="cell-all"
         style={{ width: 37 * boderState.width + 2 * (boderState.width * 2) }}
