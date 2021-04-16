@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Cell from "./Cell";
+//Styled
+import { CellAllStyled } from "../Style/CellStyle";
+import { GameStatusStyled } from "../Style/BoardStyle";
+
+
 
 const Board = ({ boderState }) => {
   console.log("boderState.mine", boderState.mine);
@@ -175,13 +180,10 @@ const Board = ({ boderState }) => {
   };
 
   const revealEmpty = (x, y, data) => {
-   
     //递归找到周围的所有空节点，可以被显示的cell的要求为：没有被标记，没有被点击，不是炸弹，且为空 ？？
     let area = traverseBoard(x, y, data);
-    
 
     area.forEach((value) => {
-      
       if (
         value.isFlag === false &&
         value.isRevealed === false &&
@@ -208,10 +210,10 @@ const Board = ({ boderState }) => {
       //当点击到地雷之后，结束游戏
       setGamestatus("game over");
       //将所有的cell都设置为已被点击
-      revealBoard(); 
+      revealBoard();
       alert("game  over");
     }
-    
+
     let updata = currentData;
     updata[x][y].isFlag = false;
     updata[x][y].isRevealed = true;
@@ -247,7 +249,6 @@ const Board = ({ boderState }) => {
       updata[x][y].isFlag = true;
 
       mine--;
-     
     } else {
       //已经被标记则取消
       updata[x][y].isFlag = false;
@@ -270,8 +271,7 @@ const Board = ({ boderState }) => {
     }
     setCurrentData(updata);
     setMineCount(mine);
-    let curMine = mine;
-    console.log('mine:',mine)
+    console.log("mine:", mine);
   };
 
   const renderBoard = (currentData) => {
@@ -292,9 +292,8 @@ const Board = ({ boderState }) => {
   };
 
   return (
-    <div className="board">
-      <div
-        className="game-info"
+    <div>
+      <GameStatusStyled
         style={{
           width: 37 * boderState.width + 2 * (boderState.width * 2) - 40,
         }}
@@ -302,13 +301,12 @@ const Board = ({ boderState }) => {
         <span>mines： {boderState.mine}</span>
         <br />
         <span>{gamestatus}</span>
-      </div>
-      <div
-        className="cell-all"
+      </GameStatusStyled>
+      <CellAllStyled
         style={{ width: 37 * boderState.width + 2 * (boderState.width * 2) }}
       >
         {renderBoard(currentData)}
-      </div>
+      </CellAllStyled>
     </div>
   );
 };

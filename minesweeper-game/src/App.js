@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React, {useState } from "react";
 import Board from "./component/Board";
-import "./index.css";
+// import "./index.css";
 // import Button from './component/Button'??
 import ChangeLevel from "./component/ChangeLevel";
 //Styled
 import { ButtonStyle } from "./Style/ButtonStyle";
+import {ButtonPosStyled} from './Style/BoardStyle'
+import {BoardStyled} from './Style/BoardStyle'
+import {BoardAllStyled} from './Style/BoardStyle'
+
 const App = () => {
   const [boderState, setBoserState] = useState({
     height: 8,
@@ -20,17 +23,19 @@ const App = () => {
   };
 
   return (
-    <div className="game">
+    <BoardStyled>
+    <BoardAllStyled>
       <h1>Welcome to Minesweeper</h1>
-      <div className="info">
+      <ButtonPosStyled>
         <ButtonStyle onClick={() => change(8, 8, 10)}>beginner</ButtonStyle>
         <ButtonStyle onClick={() => change(12, 12, 40)}>middle</ButtonStyle>
         <ButtonStyle onClick={() => change(15, 15, 80)}>expert</ButtonStyle>
-      </div>
+      </ButtonPosStyled>
 
       <Board boderState={boderState} setBoserState={setBoserState} />
       <br />
-    </div>
+    </BoardAllStyled>
+    </BoardStyled>
   );
 };
 
