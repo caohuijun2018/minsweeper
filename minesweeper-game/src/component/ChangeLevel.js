@@ -6,6 +6,5 @@ import React from 'react';
         mine: mines
     }
     return newBoder;
-
 }
 export default ChangeLevel;
