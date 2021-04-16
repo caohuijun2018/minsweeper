@@ -1,8 +1,8 @@
 import React from "react";
 
 //Styled
-import { CellStyledHiden } from "../Style/CellStyle";
-import { CellIsFlagISMine } from "../Style/CellStyle";
+import { CellHidenStyled } from "../Style/CellStyle";
+import { CellIsFlagISMineStyled } from "../Style/CellStyle";
 import { CellStyle } from "../Style/CellStyle";
 
 const Cell = ({ data, onClick, contextMenu }) => {
@@ -27,9 +27,9 @@ const Cell = ({ data, onClick, contextMenu }) => {
 
   if (data.isRevealed === false) {
     return (
-      <CellStyledHiden onClick={onClick} onContextMenu={contextMenu}>
+      <CellHidenStyled onClick={onClick} onContextMenu={contextMenu}>
         {cellContent()}
-      </CellStyledHiden>
+      </CellHidenStyled>
     );
   }
   if (data.isRevealed === true) {
@@ -43,9 +43,9 @@ const Cell = ({ data, onClick, contextMenu }) => {
     (data.isMine === true || data.isFlag === true)
   ) {
     return (
-      <CellIsFlagISMine onClick={onClick} onContextMenu={contextMenu}>
+      <CellIsFlagISMineStyled onClick={onClick} onContextMenu={contextMenu}>
         {cellContent()}
-      </CellIsFlagISMine>
+      </CellIsFlagISMineStyled>
     );
   }
 };
