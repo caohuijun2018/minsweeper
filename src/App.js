@@ -18,7 +18,6 @@ const App = () => {
 
   const change = (height, width, mine) => {
     const changStage = ChangeLevel(height, width, mine);
-    console.log(changStage);
     setBoserState(changStage);
   };
 
