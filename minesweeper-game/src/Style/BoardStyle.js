@@ -10,10 +10,11 @@ export const GameStatusStyled = styled.div`
     text-align: center;
     color: #fff;
     border-radius: 7px;
-    font-family: cursive;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     font-size: larger;
     display: inline-block;
-    margin-left: 10px
+
 `
 
 export const ButtonPosStyled = styled.div`
