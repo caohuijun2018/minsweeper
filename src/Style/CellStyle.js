@@ -5,6 +5,7 @@ export const CellAllStyled = styled.div`
   flex-wrap: wrap;
   width: 413px;
   justify-content: center;
+  margin: 0 auto;
 
 `;
 export const CellStyle = styled.div`
