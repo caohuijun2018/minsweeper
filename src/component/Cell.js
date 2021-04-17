@@ -13,9 +13,6 @@ const Cell = ({ data, onClick, contextMenu }) => {
         console.log("flag");
         return "🚩";
       }
-      if(data.isMine) {
-        return '❌'
-      }
     } else {
       //点击之后，如果为地雷，则显示地雷。如果为空则显示空，如果有neighbour则显示数字
       if (data.isMine) {
