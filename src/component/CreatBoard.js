@@ -1,6 +1,7 @@
 //这个部件的功能为，根据传入的参数BoderState的数据，创建一个行数为height，列数为width的二维数组，并在这个二维数组的随机位置放入相应数量的地雷
 //完成board的初始化。
-import dataCopy from '../component/DataCopy'
+import dataCopy from "../component/DataCopy";
+import traverseBoard from "../component/TraverseBoard";
 const createEmptyArray = (boderState) => {
   //创建一个二维数组，记录每一个cell的状态
   const data = [];
@@ -14,8 +15,7 @@ const createEmptyArray = (boderState) => {
         isFlag: false,
         isRevealed: false,
         isEmpty: false,
-        neighbour: 0,
-        className: "",
+        neighbour: 0
       };
     }
   }
@@ -40,22 +40,7 @@ let plantMines = (boderState) => {
   //返回值为随机添加了mines之后的二维数组
   return data;
 };
-const traverseBoard = (x, y, data) => {
-  //寻在八个位置的地雷的数量，并返回
-  let el = [];
-  //创建一个新的二维数组，该数组相当于在原data数组中包裹一圈黑名单，在进行位置寻找时省去了边界位置的判断
-  el.push(
-    data[x][y - 1],
-    data[x - 1][y],
-    data[x + 1][y],
-    data[x][y + 1],
-    data[x - 1][y - 1],
-    data[x - 1][y + 1],
-    data[x + 1][y + 1],
-    data[x + 1][y - 1]
-  );
-  return el;
-};
+
 //currentData为此时防放置地雷完成之后的所有的cell的数据，并且每个cell周围的地雷数量已经得到
 const getNeighbour = (boderState) => {
   //遍历周围的cell
