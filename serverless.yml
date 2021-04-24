@@ -1,0 +1,15 @@
+component: website
+name: minesweeper-game
+stage: prod
+
+inputs:
+  src:
+    root: ./
+    src: ./
+    dist: ./build
+    hook: npm run build
+    index: index.html
+    websitePath: ./
+  region: ap-shanghai
+  bucketName: caohuijun-minesweeper-game
+  protocol: http
