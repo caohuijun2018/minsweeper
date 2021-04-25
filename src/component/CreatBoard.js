@@ -15,7 +15,7 @@ const createEmptyArray = (boderState) => {
         isFlag: false,
         isRevealed: false,
         isEmpty: false,
-        neighbour: 0
+        neighbour: 0,
       };
     }
   }
