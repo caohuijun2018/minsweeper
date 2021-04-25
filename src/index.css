@@ -1,0 +1,9 @@
+body{
+    margin: 0px;
+    
+}
+
+@font-face {
+    font-family: 'Lobster';
+    src: url(./font/Lobster.ttf);
+}

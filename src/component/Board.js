@@ -12,7 +12,7 @@ import { CellAllStyled } from "../Style/CellStyle";
 import { GameStatusStyled } from "../Style/BoardStyle";
 
 const Board = ({ boderState }) => {
-  const [gamestatus, setGamestatus] = useState("game is processing");
+  const [gamestatus, setGamestatus] = useState("processing");
   const [mineCount, setMineCount] = useState(boderState.mine);
   const [currentDataRaw, setCurrentData] = useState(null);
   const currentData = JSON.parse(JSON.stringify(currentDataRaw));
@@ -46,10 +46,10 @@ const Board = ({ boderState }) => {
     }
     if (currentData[x][y].isMine === true) {
       //当点击到地雷之后，结束游戏
-      setGamestatus("game over");
+      setGamestatus("game-over");
       //将所有的cell都设置为已被点击
       revealBoard();
-      swal("game  over");
+      swal("game over");
     }
     let updata = currentData;
     updata[x][y].isFlag = false;
@@ -58,7 +58,7 @@ const Board = ({ boderState }) => {
       updata = revealEmpty(x, y, updata, boderState);
     }
     if (getHidden(updata).length === mineCount) {
-      setGamestatus("you win");
+      setGamestatus("win");
       setMineCount("0");
       revealBoard();
       swal("you win");
@@ -87,11 +87,11 @@ const Board = ({ boderState }) => {
       const mineArray = getMines(updata);
       const flagArray = getFlag(updata);
       if (JSON.stringify(mineArray) === JSON.stringify(flagArray)) {
-        setGamestatus("you are win!");
+        setGamestatus("win");
         revealBoard();
         swal("you are win!");
       } else {
-        setGamestatus("game over!");
+        setGamestatus("game over");
         revealBoard();
         swal("you are lose!");
       }
@@ -124,9 +124,16 @@ const Board = ({ boderState }) => {
           width: widthGet - 40,
         }}
       >
-        <span>mines： {mineCount}</span>
+        <span>💣： {mineCount}</span>
         <br />
-        <span>{gamestatus}</span>
+        <span>
+          {gamestatus === "processing"
+            ? "Game is processing"
+            : gamestatus === "win"
+            ? "👏"
+            : "😭"}
+        </span>
+      
       </GameStatusStyled>
       <CellAllStyled style={{ width: widthGet }}>
         {renderBoard(currentData)}

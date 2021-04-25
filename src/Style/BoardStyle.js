@@ -1,19 +1,20 @@
 import styled from 'styled-components'
+import Image from '../Img/bg.png'
 export const BoardAllStyled = styled.div`
     display:block;
     text-align:center
 `
 export const GameStatusStyled = styled.div`
     margin-bottom: 20px;
-    background: #19a0d9;
+    background: rgb(213,223,255,0.4);
     padding: 7px;
     text-align: center;
-    color: #fff;
+    color:#00008b;
     border-radius: 7px;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: Lobster;
     font-size: larger;
     display: inline-block;
+    font-size: 1em;
 
 `
 
@@ -23,9 +24,11 @@ export const ButtonPosStyled = styled.div`
 `
 
  export const BoardStyled = styled.div`
-    margin: 20px;
-    background-color: honeydew;
+    background: url(${Image}) #000;
+    background-size:cover;
+    background-repeat: repeat;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Lobster   ';
 `

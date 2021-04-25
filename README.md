@@ -17,7 +17,7 @@
    > npm install
 ### Start Server
    > npm start
-   > It's served in [http://localhost:3000](http://localhost:3000/)
+   It's served in [http://localhost:3000](http://localhost:3000/)
 ## 点击链接，试玩游戏
    > [试玩链接](https://minesweeper.hi-hi.cn/)
 
