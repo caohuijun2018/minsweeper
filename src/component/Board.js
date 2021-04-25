@@ -12,7 +12,7 @@ import { CellAllStyled } from "../Style/CellStyle";
 import { GameStatusStyled } from "../Style/BoardStyle";
 
 const Board = ({ boderState }) => {
-  const [gamestatus, setGamestatus] = useState("processing");
+  const [gamestatus, setGamestatus] = useState("Processing");
   const [mineCount, setMineCount] = useState(boderState.mine);
   const [currentDataRaw, setCurrentData] = useState(null);
   const currentData = JSON.parse(JSON.stringify(currentDataRaw));
@@ -46,10 +46,10 @@ const Board = ({ boderState }) => {
     }
     if (currentData[x][y].isMine === true) {
       //当点击到地雷之后，结束游戏
-      setGamestatus("game-over");
+      setGamestatus("Game-Over");
       //将所有的cell都设置为已被点击
       revealBoard();
-      swal("game over");
+      swal("Game Over");
     }
     let updata = currentData;
     updata[x][y].isFlag = false;
@@ -58,14 +58,13 @@ const Board = ({ boderState }) => {
       updata = revealEmpty(x, y, updata, boderState);
     }
     if (getHidden(updata).length === mineCount) {
-      setGamestatus("win");
+      setGamestatus("Win");
       setMineCount("0");
       revealBoard();
-      swal("you win");
+      swal("You Win");
     }
     setCurrentData(updata);
   };
-
   const handleContexMenu = (e, x, y) => {
     //定义右键的点击事件
     e.preventDefault();
@@ -87,13 +86,13 @@ const Board = ({ boderState }) => {
       const mineArray = getMines(updata);
       const flagArray = getFlag(updata);
       if (JSON.stringify(mineArray) === JSON.stringify(flagArray)) {
-        setGamestatus("win");
+        setGamestatus("Win");
         revealBoard();
-        swal("you are win!");
+        swal("You Are Win!");
       } else {
-        setGamestatus("game over");
+        setGamestatus("Game Over");
         revealBoard();
-        swal("you are lose!");
+        swal("You Are Lose!");
       }
     }
     setCurrentData(updata);
@@ -127,13 +126,12 @@ const Board = ({ boderState }) => {
         <span>💣： {mineCount}</span>
         <br />
         <span>
-          {gamestatus === "processing"
-            ? "Game is processing"
-            : gamestatus === "win"
+          {gamestatus === "Processing"
+            ? "Game Is Processing"
+            : gamestatus === "Win"
             ? "👏"
             : "😭"}
         </span>
-      
       </GameStatusStyled>
       <CellAllStyled style={{ width: widthGet }}>
         {renderBoard(currentData)}

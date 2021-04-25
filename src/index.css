@@ -1,9 +1,8 @@
-body{
-    margin: 0px;
-    
+body {
+  margin: 0px;
 }
 
 @font-face {
-    font-family: 'Lobster';
-    src: url(./font/Lobster.ttf);
+  font-family: "Lobster";
+  src: url(./font/Lobster.ttf);
 }

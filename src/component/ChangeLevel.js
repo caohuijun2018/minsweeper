@@ -1,9 +1,9 @@
-const ChangeLevel = (height,width,mines) => {
-    const newBoder = {
-        height:height,
-        width: width,
-        mine: mines
-    }
-    return newBoder;
-}
+const ChangeLevel = (height, width, mines) => {
+  const newBoder = {
+    height: height,
+    width: width,
+    mine: mines,
+  };
+  return newBoder;
+};
 export default ChangeLevel;

@@ -12,8 +12,7 @@ export const CellStyle = styled.div`
   height: 35px;
   width: 35px;
   border-radius: 5px;
-  color:	
-  #00008b;
+  color: #00008b;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -28,7 +27,7 @@ export const CellHidenStyled = styled.div`
   justify-content: center;
   flex-direction: column;
   margin: 1px;
-  background:#d5dfff;
+  background: #d5dfff;
 `;
 export const CellIsFlagISMineStyled = styled.div`
   border: 1px solid #4f634f;
