@@ -10,7 +10,6 @@ const Cell = ({ data, onClick, contextMenu }) => {
     if (data.isRevealed === false) {
       //isRevealed为false时执行
       if (data.isFlag) {
-        console.log("flag");
         return "🚩";
       }
     } else {
