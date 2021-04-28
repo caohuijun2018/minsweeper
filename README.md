@@ -1,6 +1,6 @@
 # Minesweeper-game 扫雷小游戏
 
-![minesweeper](src/Game-Interface.png)
+![minesweeper](/src/Img/minsweeper.png)
 
 ## 概述
 

@@ -11,7 +11,6 @@ const revealEmpty = (x, y, data, boderState) => {
       (value.isMine === false || value.isEmpty === true)
     ) {
       data[value.x][value.y].isRevealed = true;
-
       if (value.isEmpty === true)
         revealEmpty(value.x, value.y, data, boderState); //递归
     }
